@@ -9,7 +9,8 @@ class log_in_system
 {
 	public:
 
-
+		bool log_in();
+		bool sign_in();
 
 	private:
 
