@@ -29,9 +29,6 @@
     <ClCompile Include="src\log_in.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\app.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\sign_in.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
