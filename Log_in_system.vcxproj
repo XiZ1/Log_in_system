@@ -159,7 +159,13 @@
     <Text Include="LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\app.cpp" />
+    <ClCompile Include="src\log_in.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sign_in.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\log_in_system.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
