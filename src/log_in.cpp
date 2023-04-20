@@ -17,13 +17,13 @@ bool log_in_system::log_in()
 
 void log_in_system::enter_login()
 {
-	cout << "LOGIN: ";
+	show_message("LOG IN", 0);
 	cin >> login_;
 }
 
 void log_in_system::enter_password()
 {
-	cout << "PASSWORD: ";
+	show_message("SIGN IN", 0);
 	cin >> password_;
 }
 

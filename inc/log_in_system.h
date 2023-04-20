@@ -14,6 +14,7 @@ class log_in_system
 
 		bool log_in();
 		bool sign_in();
+		static void show_message(const string& message, const int wait);
 
 	private:
 
