@@ -3,35 +3,39 @@
 
 int main()
 {
-	system("cls");
-	cout << "1. LOG IN\n";
-	cout << "1. SIGN IN\n";
-	cout << "1. EXIT\n";
-
-	switch (_getch())
+	bool end_app = true;
+	do
 	{
-		case '1':
-		{
-			log_in_system start;
-			start.log_in();
-		}break;
+		system("cls");
+		cout << "1. LOG IN\n";
+		cout << "2. SIGN IN\n";
+		cout << "3. EXIT\n";
 
-		case '2':
+		switch (_getch())
 		{
-			log_in_system start;
-			start.sign_in();
-		}break;
+			case '1':
+			{
+				log_in_system start;
+				start.log_in();
+			}break;
 
-		case '3':
-		{
+			case '2':
+			{
+				log_in_system start;
+				start.sign_in();
+			}break;
 
-		}break;
+			case '3':
+			{
+				end_app = false;
+			}break;
 
-		default:
-		{
-			
+			default:
+			{
+				
+			}
 		}
-	}
+	} while (end_app);
 
 	return 0;
 }
