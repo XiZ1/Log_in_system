@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 using std::cout;
 using std::cin;
@@ -14,15 +15,21 @@ class log_in_system
 
 		bool log_in();
 		bool sign_in();
-		static void show_message(const string& message, const int wait);
 
 	private:
 
 		string login_, password_;
+		std::vector<string> login_list_;
+		string given_login_, given_password_;
 
+		void clear_input();
 		void enter_login();
 		void enter_password();
-		bool check_login(const string& login);
-		bool check_password(const string& login);
+		bool download_login_list();
+		bool search_login_on_list(const string& give_login);
+		bool download_password(const string& login);
+		bool check_password(const string& given_password) const;
+
+		static void show_message(const string& message, const int wait);
 
 };

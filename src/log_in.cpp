@@ -1,34 +1,66 @@
 #include "log_in_system.h"
 #include <fstream>
+#include <string>
 
 bool log_in_system::log_in()
 {
+	clear_input();
 	enter_login();
 	enter_password();
-	if (check_login(login_))
+	if (download_login_list())
 	{
-		if (check_password(login_))
+		if (search_login_on_list(given_login_))
 		{
-			return true;
+			if (download_password(login_))
+			{
+				if (check_password(given_password_))
+				{
+					show_message("LOG IN SUCCESSFULLY!\n", 1500);
+					return true;
+				}
+				show_message("WRONG PASSWORD!\n", 1500);
+			}
+			else
+			{
+				show_message("USER DOESN'T EXIST!\n", 1500);
+			}
 		}
+		else
+		{
+			show_message("USER DOESN'T EXIST!\n", 1500);
+		}
+	}
+	else
+	{
+		show_message("DATABASE CONNECTION ERROR!\n", 1500);
 	}
 	return false;
 }
 
+void log_in_system::clear_input()
+{
+	login_ = "";
+	password_ = "";
+	given_login_ = "";
+	given_password_ = "";
+	login_list_.clear();
+}
+
 void log_in_system::enter_login()
 {
-	show_message("LOG IN", 0);
-	cin >> login_;
+	show_message("LOG IN: ", 0);
+	cin >> given_login_;
 }
 
 void log_in_system::enter_password()
 {
-	show_message("SIGN IN", 0);
-	cin >> password_;
+	show_message("SIGN IN: ", 0);
+	cin >> given_password_;
 }
 
-bool log_in_system::check_login(const string& login)
+bool log_in_system::download_login_list()
 {
+	string temp;
 	ifstream file;
 	file.open("db\\login_list.txt");
 	if (!file.is_open())
@@ -36,14 +68,31 @@ bool log_in_system::check_login(const string& login)
 		file.close(); //TODO: ADD ERROR CONTROL!
 		return false;
 	}
-
+	while (!file.eof())
+	{
+		std::getline(file, temp);
+		login_list_.push_back(temp);
+	}
 	file.close();
-
 	return true;
 }
 
-bool log_in_system::check_password(const string& login)
+bool log_in_system::search_login_on_list(const string& give_login)
 {
+	for (int i = 0; i < login_list_.size(); i++)
+	{
+		if (login_list_[i] == give_login)
+		{
+			login_ = login_list_[i];
+			return true;
+		}
+	}
+	return false;
+}
+
+bool log_in_system::download_password(const string& login)
+{
+	string temp;
 	ifstream file;
 	file.open("db\\" + login + ".txt");
 	if (!file.is_open())
@@ -51,8 +100,17 @@ bool log_in_system::check_password(const string& login)
 		file.close(); //TODO: ADD ERROR CONTROL!
 		return false;
 	}
-
+	std::getline(file, temp);
+	password_ = temp;
 	file.close();
-
 	return true;
+}
+
+bool log_in_system::check_password(const string& given_password) const
+{
+	if (password_ == given_password)
+	{
+		return true;
+	}
+	return false;
 }
