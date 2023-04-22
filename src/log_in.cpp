@@ -1,6 +1,7 @@
 #include "log_in_system.h"
 #include <fstream>
 #include <string>
+#include <Windows.h>
 
 bool log_in_system::log_in()
 {
@@ -55,7 +56,12 @@ void log_in_system::enter_login()
 void log_in_system::enter_password()
 {
 	show_message("SIGN IN: ", 0);
-	cin >> given_password_;
+	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD mode = 0;
+	GetConsoleMode(hStdin, &mode);
+	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
+	cin.ignore();
+	getline(cin, given_password_);
 }
 
 bool log_in_system::download_login_list()
