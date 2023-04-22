@@ -31,5 +31,6 @@ class log_in_system
 		bool check_password(const string& given_password) const;
 
 		static void show_message(const string& message, const int wait);
+		static void add_error_log(const string& message);
 
 };

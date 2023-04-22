@@ -71,7 +71,8 @@ bool log_in_system::download_login_list()
 	file.open("db\\login_list.txt");
 	if (!file.is_open())
 	{
-		file.close(); //TODO: ADD ERROR CONTROL!
+		file.close();
+		add_error_log("Login_list.txt file doesn't exist.\n");
 		return false;
 	}
 	while (!file.eof())
@@ -103,7 +104,8 @@ bool log_in_system::download_password(const string& login)
 	file.open("db\\" + login + ".txt");
 	if (!file.is_open())
 	{
-		file.close(); //TODO: ADD ERROR CONTROL!
+		file.close();
+		add_error_log("User \"" + login + "\" file doesn't exist.\n");
 		return false;
 	}
 	std::getline(file, temp);
