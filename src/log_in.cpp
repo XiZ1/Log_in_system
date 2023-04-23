@@ -5,28 +5,23 @@
 
 bool log_in_system::log_in()
 {
+	is_first_start_up();
 	enter_login();
 	enter_password();
-	if (download_login_list())
+	download_login_list();
+	if (search_login_on_list(given_login_))
 	{
-		if (search_login_on_list(given_login_))
+		if (download_password(login_))
 		{
-			if (download_password(login_))
+			if (check_password(given_password_))
 			{
-				if (check_password(given_password_))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				delete_user_from_login_list(login_);
+				return true;
 			}
 		}
-	}
-	else
-	{
-		//TODO: CHECK DATABASE EXIST (TRUE-> ADD LOGIN_LIST.TXT | FALSE-> ADD DB/ AND LOGIN_LIST.TXT)
+		else
+		{
+			delete_user_from_login_list(login_);
+		}
 	}
 	return false;
 }
@@ -48,25 +43,17 @@ void log_in_system::enter_password()
 	getline(cin, given_password_);
 }
 
-bool log_in_system::download_login_list()
+void log_in_system::download_login_list()
 {
 	string temp;
 	ifstream file;
 	file.open("db\\login_list.txt");
-	if (!file.is_open())
-	{
-		file.close();
-		add_log("ERROR: login_list.txt not found.\n");
-		show_message("DATABASE CONNECTION ERROR!\n", 1500);
-		return false;
-	}
 	while (!file.eof())
 	{
 		std::getline(file, temp);
 		login_list_.push_back(temp);
 	}
 	file.close();
-	return true;
 }
 
 bool log_in_system::search_login_on_list(const string& give_login)
@@ -114,6 +101,17 @@ void log_in_system::delete_user_from_login_list(const string& login)
 	update_login_list();
 }
 
+void log_in_system::update_login_list() const
+{
+	ofstream file;
+	file.open("db\\login_list.txt");
+	for (int i = 0; i < login_list_.size(); i++)
+	{
+		file << login_list_[i] << "\n";
+	}
+	file.close();
+}
+
 bool log_in_system::check_password(const string& given_password) const
 {
 	if (password_ == given_password)
@@ -123,22 +121,4 @@ bool log_in_system::check_password(const string& given_password) const
 	}
 	show_message("WRONG PASSWORD!\n", 1500);
 	return false;
-}
-
-void log_in_system::update_login_list() const
-{
-	ofstream file;
-	file.open("db\\login_list.txt");
-	if (file.is_open())
-	{
-		add_log("ERROR: login_list.txt not found.\n");
-	}
-	else
-	{
-		for (int i = 0; i < login_list_.size(); i++)
-		{
-			file << login_list_[i] << "\n";
-		}
-	}
-	file.close();
 }

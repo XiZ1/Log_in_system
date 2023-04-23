@@ -24,14 +24,14 @@ class log_in_system
 
 		void enter_login();
 		void enter_password();
-		bool download_login_list();
+		void download_login_list();
 		bool search_login_on_list(const string& give_login);
 		bool download_password(const string& login);
 		void delete_user_from_login_list(const string& login);
+		void update_login_list() const;
 		bool check_password(const string& given_password) const;
 
-		void update_login_list() const;
-
+		void is_first_start_up() const;
 		static void show_message(const string& message, const int wait);
 		static void add_log(const string& message);
 
