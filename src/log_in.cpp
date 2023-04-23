@@ -56,7 +56,7 @@ bool log_in_system::download_login_list()
 	if (!file.is_open())
 	{
 		file.close();
-		add_error_log("Login_list.txt file doesn't exist.\n");
+		add_log("ERROR: login_list.txt not found.\n");
 		show_message("DATABASE CONNECTION ERROR!\n", 1500);
 		return false;
 	}
@@ -91,7 +91,7 @@ bool log_in_system::download_password(const string& login)
 	if (!file.is_open())
 	{
 		file.close();
-		add_error_log("User \"" + login + "\" file doesn't exist.\n");
+		add_log("ERROR: Not found \"" + login + "\" user in database.\n");
 		show_message("USER DOESN'T EXIST!\n", 1500);
 		return false;
 	}
@@ -129,9 +129,16 @@ void log_in_system::update_login_list() const
 {
 	ofstream file;
 	file.open("db\\login_list.txt");
-	for (int i = 0; i < login_list_.size(); i++)
+	if (file.is_open())
 	{
-		file << login_list_[i] << "\n";
+		add_log("ERROR: login_list.txt not found.\n");
+	}
+	else
+	{
+		for (int i = 0; i < login_list_.size(); i++)
+		{
+			file << login_list_[i] << "\n";
+		}
 	}
 	file.close();
 }
