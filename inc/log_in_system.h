@@ -20,7 +20,9 @@ class log_in_system
 
 		string login_, password_;
 		std::vector<string> login_list_;
-		string given_login_, given_password_;
+		string given_login_, given_password_, given_repeat_password_;
+		string name_, surname_, email_, phone_number_;
+		int lowercase_counter_ = 0, uppercase_counter_ = 0, space_counter_ = 0, special_char_counter_ = 0, number_counter_ = 0;
 
 		void enter_login();
 		void enter_password();
@@ -31,6 +33,13 @@ class log_in_system
 		void update_login_list() const;
 		bool check_password(const string& given_password) const;
 
+		void set_password();
+		void set_user_details();
+		bool login_validation(const string& given_login);
+		void char_counter(const string& string_data);
+		bool password_validation(const string& given_password, const string& given_repeat_password);
+		bool add_user_to_database();
+		
 		void is_first_start_up() const;
 		static void show_message(const string& message, const int wait);
 		static void add_log(const string& message);
