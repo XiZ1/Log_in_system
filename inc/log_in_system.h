@@ -30,9 +30,9 @@ class log_in_system
 		void delete_user_from_login_list(const string& login);
 		bool check_password(const string& given_password) const;
 
-		void update_login_list() const;
+		bool update_login_list() const;
 
 		static void show_message(const string& message, const int wait);
-		static void add_error_log(const string& message);
+		static void add_log(const string& message);
 
 };

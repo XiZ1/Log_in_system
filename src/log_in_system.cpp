@@ -9,7 +9,7 @@ void log_in_system::show_message(const string& message, const int wait)
 	Sleep(wait);
 }
 
-void log_in_system::add_error_log(const string& message)
+void log_in_system::add_log(const string& message)
 {
 	ofstream file;
 	file.open("db\\log.txt", std::fstream::app);
