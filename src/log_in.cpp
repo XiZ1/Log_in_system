@@ -5,7 +5,6 @@
 
 bool log_in_system::log_in()
 {
-	clear_input();
 	enter_login();
 	enter_password();
 	if (download_login_list())
@@ -16,35 +15,20 @@ bool log_in_system::log_in()
 			{
 				if (check_password(given_password_))
 				{
-					show_message("LOG IN SUCCESSFULLY!\n", 1500);
 					return true;
 				}
-				show_message("WRONG PASSWORD!\n", 1500);
 			}
 			else
 			{
-				show_message("USER DOESN'T EXIST!\n", 1500);
+				//TODO: DELETED USER FROM LOGIN LIST IF DOWNLOAD_PASSWORD RETURN FALSE.
 			}
-		}
-		else
-		{
-			show_message("USER DOESN'T EXIST!\n", 1500);
 		}
 	}
 	else
 	{
-		show_message("DATABASE CONNECTION ERROR!\n", 1500);
+		//TODO: CHECK DATABASE EXIST (TRUE-> ADD LOGIN_LIST.TXT | FALSE-> ADD DB/ AND LOGIN_LIST.TXT)
 	}
 	return false;
-}
-
-void log_in_system::clear_input()
-{
-	login_ = "";
-	password_ = "";
-	given_login_ = "";
-	given_password_ = "";
-	login_list_.clear();
 }
 
 void log_in_system::enter_login()
@@ -73,6 +57,7 @@ bool log_in_system::download_login_list()
 	{
 		file.close();
 		add_error_log("Login_list.txt file doesn't exist.\n");
+		show_message("DATABASE CONNECTION ERROR!\n", 1500);
 		return false;
 	}
 	while (!file.eof())
@@ -94,6 +79,7 @@ bool log_in_system::search_login_on_list(const string& give_login)
 			return true;
 		}
 	}
+	show_message("USER DOESN'T EXIST!\n", 1500);
 	return false;
 }
 
@@ -106,6 +92,7 @@ bool log_in_system::download_password(const string& login)
 	{
 		file.close();
 		add_error_log("User \"" + login + "\" file doesn't exist.\n");
+		show_message("USER DOESN'T EXIST!\n", 1500);
 		return false;
 	}
 	std::getline(file, temp);
@@ -118,7 +105,9 @@ bool log_in_system::check_password(const string& given_password) const
 {
 	if (password_ == given_password)
 	{
+		show_message("LOG IN SUCCESSFULLY!\n", 1500);
 		return true;
 	}
+	show_message("WRONG PASSWORD!\n", 1500);
 	return false;
 }

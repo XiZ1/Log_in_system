@@ -22,7 +22,6 @@ class log_in_system
 		std::vector<string> login_list_;
 		string given_login_, given_password_;
 
-		void clear_input();
 		void enter_login();
 		void enter_password();
 		bool download_login_list();
