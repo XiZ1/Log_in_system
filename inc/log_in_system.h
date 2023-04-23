@@ -27,7 +27,10 @@ class log_in_system
 		bool download_login_list();
 		bool search_login_on_list(const string& give_login);
 		bool download_password(const string& login);
+		void delete_user_from_login_list(const string& login);
 		bool check_password(const string& given_password) const;
+
+		void update_login_list() const;
 
 		static void show_message(const string& message, const int wait);
 		static void add_error_log(const string& message);

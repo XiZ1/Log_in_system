@@ -20,7 +20,7 @@ bool log_in_system::log_in()
 			}
 			else
 			{
-				//TODO: DELETED USER FROM LOGIN LIST IF DOWNLOAD_PASSWORD RETURN FALSE.
+				delete_user_from_login_list(login_);
 			}
 		}
 	}
@@ -101,6 +101,19 @@ bool log_in_system::download_password(const string& login)
 	return true;
 }
 
+void log_in_system::delete_user_from_login_list(const string& login)
+{
+	for (int i = 0; i < login_list_.size(); i++)
+	{
+		if (login_list_[i] == login)
+		{
+			const auto it = login_list_.begin() + i;
+			login_list_.erase(it);
+		}
+	}
+	update_login_list();
+}
+
 bool log_in_system::check_password(const string& given_password) const
 {
 	if (password_ == given_password)
@@ -110,4 +123,15 @@ bool log_in_system::check_password(const string& given_password) const
 	}
 	show_message("WRONG PASSWORD!\n", 1500);
 	return false;
+}
+
+void log_in_system::update_login_list() const
+{
+	ofstream file;
+	file.open("db\\login_list.txt");
+	for (int i = 0; i < login_list_.size(); i++)
+	{
+		file << login_list_[i] << "\n";
+	}
+	file.close();
 }
