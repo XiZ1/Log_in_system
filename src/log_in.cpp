@@ -28,13 +28,13 @@ bool log_in_system::log_in()
 
 void log_in_system::enter_login()
 {
-	show_message("LOG IN: ", 0);
+	show_message("LOGIN: ", 0);
 	cin >> given_login_;
 }
 
 void log_in_system::enter_password()
 {
-	show_message("SIGN IN: ", 0);
+	show_message("PASSWORD: ", 0);
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD mode = 0;
 	GetConsoleMode(hStdin, &mode);
@@ -74,7 +74,7 @@ bool log_in_system::download_password(const string& login)
 {
 	string temp;
 	ifstream file;
-	file.open("db\\" + login + ".txt");
+	file.open("db\\" + login + "\\password.txt");
 	if (!file.is_open())
 	{
 		file.close();
