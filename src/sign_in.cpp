@@ -10,7 +10,7 @@ bool log_in_system::sign_in()
 	set_password();
 	set_user_details();
 	download_login_list();
-	if (login_validation(given_login_))//search_login_on_list(given_login_) && 
+	if (search_login_on_list(given_login_) && login_validation(given_login_)) 
 	{
 		if (password_validation(given_password_, given_repeat_password_))
 		{
