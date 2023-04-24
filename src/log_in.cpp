@@ -23,6 +23,10 @@ bool log_in_system::log_in()
 			delete_user_from_login_list(login_);
 		}
 	}
+	else
+	{
+		show_message("USER DOESN'T EXIST!\n", 1500);
+	}
 	return false;
 }
 
@@ -66,7 +70,6 @@ bool log_in_system::search_login_on_list(const string& give_login)
 			return true;
 		}
 	}
-	show_message("USER DOESN'T EXIST!\n", 1500);
 	return false;
 }
 
@@ -79,7 +82,6 @@ bool log_in_system::download_password(const string& login)
 	{
 		file.close();
 		add_log("ERROR: Not found \"" + login + "\" user in database.\n");
-		show_message("USER DOESN'T EXIST!\n", 1500);
 		return false;
 	}
 	std::getline(file, temp);
