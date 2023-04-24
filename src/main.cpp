@@ -32,7 +32,8 @@ int main()
 
 			default:
 			{
-				
+				system("cls");
+				cout << "THIS OPTION NOT EXIST!\n";
 			}
 		}
 	} while (end_app);
