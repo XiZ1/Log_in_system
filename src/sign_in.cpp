@@ -1,4 +1,5 @@
 #include "log_in_system.h"
+#include <filesystem>
 #include <Windows.h>
 #include <fstream>
 #include <string>
@@ -16,10 +17,12 @@ bool log_in_system::sign_in()
 		{
 			if (add_user_to_database())
 			{
+				show_message("REGISTER SUCCESSFULLY!\n", 2000);
 				return true;
 			}
 		}
 	}
+	show_message("SIGN IN FAILED!\n", 2000);
 	return false;
 }
 
@@ -59,6 +62,7 @@ bool log_in_system::login_validation(const string& given_login)
 		{
 			if (lowercase_counter_ > 1 && uppercase_counter_ > 1 && number_counter_ > 1)
 			{
+				login_ = given_login;
 				return true;
 			}
 		}
@@ -104,6 +108,7 @@ bool log_in_system::password_validation(const string& given_password, const stri
 			{
 				if (lowercase_counter_ > 1 && uppercase_counter_ > 1 && number_counter_ > 1)
 				{
+					password_ = given_password;
 					return true;
 				}
 			}
@@ -112,7 +117,81 @@ bool log_in_system::password_validation(const string& given_password, const stri
 	return false;
 }
 
-bool log_in_system::add_user_to_database()
+bool log_in_system::add_user_to_database() const
 {
+	if (create_user_directory(login_))
+	{
+		if (create_user_files(login_))
+		{
+			if (save_user_password(login_))
+			{
+				if (save_user_details(login_))
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool log_in_system::create_user_directory(const string& login) const
+{
+	std::filesystem::create_directory("db\\" + login);
+	if (std::filesystem::exists("db\\" + login))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool log_in_system::create_user_files(const string& login)
+{
+	ofstream file;
+	file.open("db\\" + login + "\\password.txt");
+	if (!file.is_open())
+	{
+		file.close();
+		return false;
+	}
+	file.close();
+	file.open("db\\" + login + "\\user_details.txt");
+	if (!file.is_open())
+	{
+		file.close();
+		return false;
+	}
+	file.close();
+	return true;
+}
+
+bool log_in_system::save_user_password(const string& login) const
+{
+	ofstream file;
+	file.open("db\\" + login + "\\password.txt");
+	if (!file.is_open())
+	{
+		file.close();
+		return false;
+	}
+	file << password_ << "\n";
+	file.close();
+	return true;
+}
+
+bool log_in_system::save_user_details(const string& login) const
+{
+	ofstream file;
+	file.open("db\\" + login + "\\user_details.txt");
+	if (!file.is_open())
+	{
+		file.close();
+		return false;
+	}
+	file << name_ << "\n";
+	file << surname_ << "\n";
+	file << email_ << "\n";
+	file << phone_number_ << "\n";
+	file.close();
 	return true;
 }
