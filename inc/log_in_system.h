@@ -39,9 +39,10 @@ class log_in_system
 		bool login_validation(const string& given_login);
 		void char_counter(const string& string_data);
 		bool password_validation(const string& given_password, const string& given_repeat_password);
-		bool add_user_to_database() const;
+		bool add_user_to_database();
 		bool create_user_directory(const string& login) const;
 		bool save_user_details(const string& login) const;
+		void add_to_login_list(const string& login);
 		
 		void is_first_start_up() const;
 		static void show_message(const string& message, const int wait);

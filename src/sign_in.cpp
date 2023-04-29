@@ -123,12 +123,13 @@ bool log_in_system::password_validation(const string& given_password, const stri
 	return false;
 }
 
-bool log_in_system::add_user_to_database() const
+bool log_in_system::add_user_to_database()
 {
 	if (create_user_directory(login_))
 	{
 		if (save_user_details(login_))
 		{
+			add_to_login_list(login_);
 			return true;
 		}
 	}
@@ -174,4 +175,10 @@ bool log_in_system::save_user_details(const string& login) const
 	file.close();
 
 	return true;
+}
+
+void log_in_system::add_to_login_list(const string& login)
+{
+	login_list_.push_back(login);
+	update_login_list();
 }
