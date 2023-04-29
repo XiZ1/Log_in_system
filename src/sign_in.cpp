@@ -28,34 +28,35 @@ bool log_in_system::sign_in()
 
 void log_in_system::set_login()
 {
-	show_message("LOGIN: ", 0);	//TODO: Poprawic opis
+	show_message("Login length from 4 to 16 characters.\nLogin cannot contain spaces.\n", 0);
 	cin >> given_login_;
 }
 
 void log_in_system::set_password()
 {
-	show_message("PASSWORD: ", 0);	//TODO: Poprawic opis
+	const string message = "Password length from 4 to 24 characters.\nPassword must include 1 lowercase, 1 uppercase, 1 number and 1 special character.\nPassword cannot contain spaces.\n";
+	show_message(message, 0);
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD mode = 0;
 	GetConsoleMode(hStdin, &mode);
 	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
 	cin.ignore();
 	getline(cin, given_password_);
-	show_message("REPEAT PASSWORD: ", 0);	//TODO: Poprawic opis
+	show_message(message, 0);
 	GetConsoleMode(hStdin, &mode);
 	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
 	getline(cin, given_repeat_password_);
 }
 
-void log_in_system::set_user_details()	//TODO: Add user details validation!
+void log_in_system::set_user_details()	//TODO: Add user details validation and add message!
 {
-	show_message("SET NAME: ", 0);	//TODO: Poprawic opis
+	show_message("SET NAME: ", 0);
 	cin >> name_;
-	show_message("SET SURNAME: ", 0);	//TODO: Poprawic opis
+	show_message("SET SURNAME: ", 0);
 	cin >> surname_;
-	show_message("SET EMAIL: ", 0);	//TODO: Poprawic opis
+	show_message("SET EMAIL: ", 0);
 	cin >> email_;
-	show_message("PHONE NUMBER: ", 0);	//TODO: Poprawic opis
+	show_message("PHONE NUMBER: ", 0);
 	cin >> phone_number_;
 }
 
@@ -64,7 +65,7 @@ bool log_in_system::login_validation(const string& given_login)
 	char_counter(given_login);
 	if (space_counter_ == 0 && special_char_counter_ == 0)
 	{
-		if (given_login.length() >= 4 && given_login.length() <= 24)
+		if (given_login.length() >= 4 && given_login.length() <= 16)
 		{
 			login_ = given_login;
 			return true;
