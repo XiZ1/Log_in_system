@@ -7,11 +7,11 @@
 bool log_in_system::sign_in()
 {
 	is_first_start_up();
-	enter_login();
+	set_login();
 	set_password();
 	set_user_details();
 	download_login_list();
-	if (search_login_on_list(given_login_) && login_validation(given_login_)) 
+	if (search_login_on_list(given_login_) && login_validation(given_login_))
 	{
 		if (password_validation(given_password_, given_repeat_password_))
 		{
@@ -26,30 +26,36 @@ bool log_in_system::sign_in()
 	return false;
 }
 
+void log_in_system::set_login()
+{
+	show_message("LOGIN: ", 0);	//TODO: Poprawic opis
+	cin >> given_login_;
+}
+
 void log_in_system::set_password()
 {
-	show_message("PASSWORD: ", 0);
+	show_message("PASSWORD: ", 0);	//TODO: Poprawic opis
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD mode = 0;
 	GetConsoleMode(hStdin, &mode);
 	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
 	cin.ignore();
 	getline(cin, given_password_);
-	show_message("REPEAT PASSWORD: ", 0);
+	show_message("REPEAT PASSWORD: ", 0);	//TODO: Poprawic opis
 	GetConsoleMode(hStdin, &mode);
 	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
 	getline(cin, given_repeat_password_);
 }
 
-void log_in_system::set_user_details()
+void log_in_system::set_user_details()	//TODO: Add user details validation!
 {
-	show_message("SET NAME: ", 0);
+	show_message("SET NAME: ", 0);	//TODO: Poprawic opis
 	cin >> name_;
-	show_message("SET SURNAME: ", 0);
+	show_message("SET SURNAME: ", 0);	//TODO: Poprawic opis
 	cin >> surname_;
-	show_message("SET EMAIL: ", 0);
+	show_message("SET EMAIL: ", 0);	//TODO: Poprawic opis
 	cin >> email_;
-	show_message("PHONE NUMBER: ", 0);
+	show_message("PHONE NUMBER: ", 0);	//TODO: Poprawic opis
 	cin >> phone_number_;
 }
 
@@ -60,11 +66,8 @@ bool log_in_system::login_validation(const string& given_login)
 	{
 		if (given_login.length() >= 4 && given_login.length() <= 24)
 		{
-			if (lowercase_counter_ > 1 && uppercase_counter_ > 1 && number_counter_ > 1)
-			{
-				login_ = given_login;
-				return true;
-			}
+			login_ = given_login;
+			return true;
 		}
 	}
 	return false;
@@ -106,7 +109,7 @@ bool log_in_system::password_validation(const string& given_password, const stri
 		{
 			if (given_password.length() >= 4 && given_password.length() <= 24)
 			{
-				if (lowercase_counter_ > 1 && uppercase_counter_ > 1 && number_counter_ > 1)
+				if (lowercase_counter_ >= 1 && uppercase_counter_ >= 1 && number_counter_ >= 1)
 				{
 					password_ = given_password;
 					return true;

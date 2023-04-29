@@ -33,6 +33,7 @@ class log_in_system
 		void update_login_list() const;
 		bool check_password(const string& given_password) const;
 
+		void set_login();
 		void set_password();
 		void set_user_details();
 		bool login_validation(const string& given_login);
