@@ -125,15 +125,9 @@ bool log_in_system::add_user_to_database() const
 {
 	if (create_user_directory(login_))
 	{
-		if (create_user_files(login_))
+		if (save_user_details(login_))
 		{
-			if (save_user_password(login_))
-			{
-				if (save_user_details(login_))
-				{
-					return true;
-				}
-			}
+			return true;
 		}
 	}
 	return false;
@@ -149,29 +143,10 @@ bool log_in_system::create_user_directory(const string& login) const
 	return false;
 }
 
-bool log_in_system::create_user_files(const string& login)
+bool log_in_system::save_user_details(const string& login) const
 {
 	ofstream file;
-	file.open("db\\" + login + "\\password.txt");
-	if (!file.is_open())
-	{
-		file.close();
-		return false;
-	}
-	file.close();
-	file.open("db\\" + login + "\\user_details.txt");
-	if (!file.is_open())
-	{
-		file.close();
-		return false;
-	}
-	file.close();
-	return true;
-}
 
-bool log_in_system::save_user_password(const string& login) const
-{
-	ofstream file;
 	file.open("db\\" + login + "\\password.txt");
 	if (!file.is_open())
 	{
@@ -180,12 +155,7 @@ bool log_in_system::save_user_password(const string& login) const
 	}
 	file << password_ << "\n";
 	file.close();
-	return true;
-}
 
-bool log_in_system::save_user_details(const string& login) const
-{
-	ofstream file;
 	file.open("db\\" + login + "\\user_details.txt");
 	if (!file.is_open())
 	{
@@ -197,5 +167,6 @@ bool log_in_system::save_user_details(const string& login) const
 	file << email_ << "\n";
 	file << phone_number_ << "\n";
 	file.close();
+
 	return true;
 }
