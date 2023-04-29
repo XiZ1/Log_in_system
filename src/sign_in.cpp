@@ -11,7 +11,7 @@ bool log_in_system::sign_in()
 	set_password();
 	set_user_details();
 	download_login_list();
-	if (search_login_on_list(given_login_) && login_validation(given_login_))
+	if (!search_login_on_list(given_login_) && login_validation(given_login_))
 	{
 		if (password_validation(given_password_, given_repeat_password_))
 		{
@@ -71,6 +71,7 @@ bool log_in_system::login_validation(const string& given_login)
 			return true;
 		}
 	}
+	show_message("Login format is incorrect.\n Try again!\n", 0);
 	return false;
 }
 
@@ -118,6 +119,7 @@ bool log_in_system::password_validation(const string& given_password, const stri
 			}
 		}
 	}
+	show_message("Password format is incorrect.\n Try again!\n", 0);
 	return false;
 }
 
@@ -140,6 +142,7 @@ bool log_in_system::create_user_directory(const string& login) const
 	{
 		return true;
 	}
+	add_log("ERROR: Creating user folder.\n");
 	return false;
 }
 
@@ -151,6 +154,7 @@ bool log_in_system::save_user_details(const string& login) const
 	if (!file.is_open())
 	{
 		file.close();
+		add_log("ERROR: Password saving.\n");
 		return false;
 	}
 	file << password_ << "\n";
@@ -160,6 +164,7 @@ bool log_in_system::save_user_details(const string& login) const
 	if (!file.is_open())
 	{
 		file.close();
+		add_log("ERROR: User details saving.\n");
 		return false;
 	}
 	file << name_ << "\n";
