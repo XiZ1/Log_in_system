@@ -1,3 +1,7 @@
+/*
+ *	Copyright (C) 2023 Jakub Gorecki - All Rights Reserved.
+ */
+
 #include "log_in_system.h"
 #include <Windows.h>
 #include <fstream>
